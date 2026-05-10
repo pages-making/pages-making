@@ -1,10 +1,10 @@
+# 🎓 산학 캡스톤 22조 : ReadyTalk for Academy
 
 <p align="center">
   <a href="https://academy.ready.talk/kookmin-language-institute">
     <img src="./main-banner.PNG" width="50%" alt="ReadyTalk for Academy 배너"/>
   </a>
 </p>
-
 
 <p align="center">
   <b>AI 기반 교육기관 맞춤형 멀티테넌트 학원 운영 플랫폼</b>
@@ -22,9 +22,10 @@
 - [2. 소개 영상](#2-소개-영상)
 - [3. 팀 소개](#3-팀-소개)
 - [4. 기술 스택](#4-기술-스택)
-- [5. 시스템 아키텍처 및 프로젝트 구조](#5-시스템-아키텍처-및-프로젝트-구조)
+- [5. 시스템 아키텍처](#5-시스템-아키텍처)
 - [6. 핵심 기술 구조](#6-핵심-기술-구조)
-- [7. 실행 방법 및 개발 환경 설정](#7-실행-방법-및-개발-환경-설정)
+- [7. 폴더 구조](#7-폴더-구조)
+- [8. 개발 환경 및 실행 방법](#8-개발-환경-및-실행-방법)
 ---
 
 # 1. 프로젝트 소개
@@ -37,18 +38,24 @@
 
 또한 기출 문제 유형 분류 및 유사 문제 생성을 통해 학습을 지원하며, 관리자는 상담 내용을 저장·요약하여 운영 효율을 높일 수 있습니다.
 
-
-
+---
 ## 🚀 프로젝트 차별점 및 핵심 기능
+
+ReadyTalk for Academy는 단순 AI 챗봇이 아닌,
+교육기관 운영에 특화된 AI 기반 학원 지원 플랫폼입니다.
+
+멀티테넌트 구조를 통해 학원별 데이터를 독립적으로 관리할 수 있으며,
+RAG 기반 문서 검색과 Function Calling 기반 AI 처리 구조를 활용하여
+상담, 문서 검색, 사용자 관리 등 실제 학원 운영 업무를 지원하도록 개발하였습니다.
 
 | 기능 | 설명 |
 |---|---|
 | RAG 기반 AI 상담 | 문서 기반 검색 및 응답 제공 |
 | 멀티테넌트 구조 | 학원별 독립 데이터 관리 |
 | KakaoTalk 연동 | 카카오톡 상담 지원 |
-| 관리자 기능 | 문서 업로드 및 사용자 관리 |
+| 관리자 기능 | 문서 업로드· 사용자 · 문서저장소 관리 |
 
-
+---
 ## 🖼️ 주요 서비스 화면
 
 🔴 [메인 채팅 화면 이미지 첨부]
@@ -114,9 +121,10 @@
 <p align="center">
   <img src="./stack.png" width="70%" alt="ReadyTalk 기술 스택"/>
 </p>
+
 ---
 
-# 5. 시스템 아키텍처 및 프로젝트 구조
+# 5. 시스템 아키텍처
 
 ```mermaid
 graph TB
@@ -130,7 +138,6 @@ graph TB
         SA_UI[Superadmin Pages]
         ADMIN_UI[Admin Pages]
         CHAT_UI[Chat Pages]
-        CAL_UI[Calendar Pages]
     end
 
     subgraph BE["Backend - FastAPI :8000"]
@@ -140,7 +147,6 @@ graph TB
         R4["/api/corpus"]
         R5["/api/models"]
         R6["/api/kakao"]
-        R7["/api/calendar"]
     end
 
     subgraph DB["PostgreSQL :5432"]
@@ -158,7 +164,6 @@ graph TB
             BUCKET["tenants/{slug}/{corpus}/files"]
         end
         GEMINI["Gemini API"]
-        GCAL["Google Calendar API"]
     end
 
     WEAVIATE["Weaviate :8080"]
@@ -172,79 +177,8 @@ graph TB
     BE --> VAS
     BE --> GCS
     BE --> GEMINI
-    BE --> GCAL
     RAG --> WEAVIATE
 ```
-
-```
-readytalk-kmu/
-├── backend/
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── models/
-│   │   │   ├── tenant.py              # Tenant, GcpConfig, KakaoConfig, CalendarConfig
-│   │   │   ├── user.py
-│   │   │   ├── group.py
-│   │   │   ├── chat.py
-│   │   │   ├── corpus.py
-│   │   │   ├── chatbot_settings.py
-│   │   │   ├── prompt_template.py
-│   │   │   ├── platform_setting.py
-│   │   │   └── store_permission.py
-│   │   ├── routers/
-│   │   │   ├── superadmin.py          # 테넌트 CRUD, 플랫폼 설정
-│   │   │   ├── auth.py                # 로그인, 회원가입, JWT
-│   │   │   ├── chat.py                # 스마트 쿼리 (Function Calling)
-│   │   │   ├── corpus.py              # 문서저장소 CRUD (검색엔진 분기)
-│   │   │   ├── calendar.py            # Google Calendar OAuth
-│   │   │   ├── kakao.py               # 카카오톡 webhook
-│   │   │   ├── chatbot_settings.py    # 챗봇 설정
-│   │   │   ├── prompt_templates.py    # 프롬프트 템플릿
-│   │   │   ├── models.py             # Gemini 모델 목록
-│   │   │   └── admin.py              # 테넌트 어드민
-│   │   ├── services/
-│   │   │   ├── rag_service.py         # Vertex AI RAG + Weaviate
-│   │   │   ├── search_service.py      # Vertex AI Search
-│   │   │   ├── chat_service.py        # 스마트 쿼리 엔진
-│   │   │   ├── gemini_client.py       # Gemini API 클라이언트
-│   │   │   ├── gcs_service.py         # GCS 파일 관리
-│   │   │   ├── calendar_service.py    # Google Calendar 연동
-│   │   │   ├── tenant_provisioning.py # 테넌트 프로비저닝
-│   │   │   └── usage_service.py       # 사용량 추적
-│   │   ├── schemas/
-│   │   └── utils/
-│   │       ├── dependencies.py        # 인증 미들웨어
-│   │       ├── security.py            # JWT, 비밀번호 해싱
-│   │       ├── init_data.py           # 초기 데이터 (superadmin)
-│   │       └── store_access.py        # 문서저장소 접근 권한
-│   ├── credentials/                   # GCP 서비스 계정 JSON (gitignore)
-│   ├── migrations/                    # Alembic DB 마이그레이션
-│   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   │   ├── App.js                     # 라우팅 (slug 기반 테넌트 분기)
-│   │   ├── pages/
-│   │   │   ├── ChatPage.js            # 채팅 UI
-│   │   │   ├── AdminPage.js           # 테넌트 어드민
-│   │   │   ├── CalendarPage.js        # 캘린더 UI
-│   │   │   └── superadmin/            # 슈퍼어드민 페이지들
-│   │   ├── services/api.js            # Axios API 클라이언트
-│   │   └── context/
-│   │       ├── AuthContext.js
-│   │       └── TenantContext.js
-│   └── Dockerfile
-├── nginx/
-│   └── backend.conf                   # Nginx 설정
-├── docker-compose.yml                 # 로컬 개발용
-├── docker-compose.dev.yml             # 개발계 (GCP VM)
-├── docker-compose.prod.yml            # 운영계
-├── .env                               # 로컬 환경변수 (gitignore)
-└── .env.production                    # 운영 환경변수 (gitignore)
-```
-
----
 
 
 
@@ -253,7 +187,7 @@ readytalk-kmu/
 # 6. 핵심 기술 구조
 본 시스템은 학원별 독립 데이터 관리와 AI 기반 문서 검색 기능을 위해 멀티테넌트 구조와 Function Calling 기반 AI 처리 구조로 설계되었습니다.
 
-## 6.1 검색 엔진 구조
+## 6.1 검색 엔진 이중 지원 구조
 테넌트별로 검색 엔진을 선택할 수 있습니다:
 
 | 엔진 | 서비스 | 리소스 구조 | 용도 |
@@ -426,10 +360,42 @@ DB 저장 (messages 테이블) → 응답 반환
 
 
 ---
+# 7. 폴더 구조
+```
+readytalk-kmu/
+├── backend/
+│   ├── app/
+│   │   ├── models/        # Tenant · User · Chat 등 DB 모델
+│   │   ├── routers/       # 인증 · 채팅 · 문서 · 관리자 API
+│   │   ├── services/      # RAG · Gemini · 검색 엔진 로직
+│   │   ├── schemas/       # Pydantic 스키마
+│   │   └── utils/         # 인증 · 보안 · 권한 관리
+│   │
+│   ├── migrations/        # Alembic DB 마이그레이션
+│   ├── credentials/       # GCP 서비스 계정 키 (gitignore)
+│   └── Dockerfile
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/         # 채팅 · 관리자 
+│   │   ├── services/      # Axios API 클라이언트
+│   │   └── context/       # 인증 · 테넌트 상태 관리
+│   │
+│   └── Dockerfile
+│
+├── nginx/
+│   └── backend.conf       # Reverse Proxy 설정
+│
+├── docker-compose.yml
+├── docker-compose.dev.yml
+├── docker-compose.prod.yml
+└── .env
+```
+---
 
 
 
-# 7. 실행 방법 및 개발 환경 설정
+# 8. 개발 환경 및 실행 방법
 
 ## 📦 Quick Start
 
