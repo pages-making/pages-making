@@ -93,17 +93,15 @@
         <img src="https://github.com/yangjiwoong1.png" width="100px;" alt=""/><br />
         <sub><b>양지웅</b></sub>
       </a><br />
-      <sub>팀장 · 백엔드</sub>
+      <sub>팀장, 백엔드</sub>
     </td>
-
     <td align="center">
       <a href="https://github.com/ume24">
         <img src="https://github.com/ume24.png" width="100px;" alt=""/><br />
         <sub><b>정유미</b></sub>
       </a><br />
-      <sub>AI Agent 개발 · 프론트엔드</sub>
+      <sub>AI Agent 개발<br>프론트엔드</sub>
     </td>
-
     <td align="center">
       <a href="https://github.com/yunseo1011">
         <img src="https://github.com/yunseo1011.png" width="100px;" alt=""/><br />
@@ -111,41 +109,22 @@
       </a><br />
       <sub>AI Agent 개발</sub>
     </td>
-
     <td align="center">
       <a href="https://github.com/seungil0909">
         <img src="https://github.com/seungil0909.png" width="100px;" alt=""/><br />
         <sub><b>양승일</b></sub>
       </a><br />
-      <sub>문서화 · 기능 QA · 프론트엔드 보조</sub>
+      <sub>문서 정리<br>개발 보조</sub>
     </td>
-
     <td align="center">
       <a href="https://github.com/hyeforest7">
         <img src="https://github.com/hyeforest7.png" width="100px;" alt=""/><br />
         <sub><b>유혜성</b></sub>
       </a><br />
-      <sub>AI Agent QA · 테스트</sub>
+      <sub>AI Agent QA</sub>
     </td>
   </tr>
 </table>
-
----
-
-# 5. 기술 스택
-
-| Layer | Technology |
-|---|---|
-| Frontend | React 18 · MUI · React Router v6 · Axios |
-| Backend | FastAPI · SQLAlchemy · Alembic · Gunicorn + Uvicorn |
-| Database | PostgreSQL 15 |
-| AI/Search | Vertex AI RAG Engine · Vertex AI Search · Gemini API |
-| Vector DB | Weaviate |
-| Storage | Google Cloud Storage |
-| Calendar | Google Calendar API |
-| Infra | Docker Compose · Nginx · GCP Compute Engine |
-| Auth | JWT |
-| Messaging | KakaoTalk Open Builder |
 
 ---
 
@@ -153,14 +132,6 @@
 
 ```mermaid
 graph TB
-    USER[User] --> FE[Frontend]
-    FE --> BE[FastAPI Backend]
-    BE --> DB[(PostgreSQL)]
-    BE --> RAG[Vertex AI RAG]
-    BE --> GEMINI[Gemini API]
-    BE --> GCS[GCS Storage]
-```mermaid
-graph TB
     subgraph NGINX["Nginx :80"]
         direction LR
         RL[Rate Limiting]
@@ -216,65 +187,6 @@ graph TB
     BE --> GCAL
     RAG --> WEAVIATE
 ```
-```mermaid
-graph TB
-    subgraph NGINX["Nginx :80"]
-        direction LR
-        RL[Rate Limiting]
-        RP[Reverse Proxy]
-    end
-
-    subgraph FE["Frontend - React :3000"]
-        SA_UI[Superadmin Pages]
-        ADMIN_UI[Admin Pages]
-        CHAT_UI[Chat Pages]
-        CAL_UI[Calendar Pages]
-    end
-
-    subgraph BE["Backend - FastAPI :8000"]
-        R1["/api/superadmin"]
-        R2["/api/auth"]
-        R3["/api/chat"]
-        R4["/api/corpus"]
-        R5["/api/models"]
-        R6["/api/kakao"]
-        R7["/api/calendar"]
-    end
-
-    subgraph DB["PostgreSQL :5432"]
-        TENANT_DATA["tenant_id FK isolation"]
-    end
-
-    subgraph GCP["Google Cloud Platform"]
-        subgraph RAG["Vertex AI RAG Engine"]
-            RAG_CORPUS["RAG Corpus + Weaviate"]
-        end
-        subgraph VAS["Vertex AI Search"]
-            DS["DataStore + Engine"]
-        end
-        subgraph GCS["GCS · techready_readytalk_kmu"]
-            BUCKET["tenants/{slug}/{corpus}/files"]
-        end
-        GEMINI["Gemini API"]
-        GCAL["Google Calendar API"]
-    end
-
-    WEAVIATE["Weaviate :8080"]
-
-    KAKAO["KakaoTalk"] --> R6
-
-    NGINX --> FE
-    NGINX --> BE
-    BE --> DB
-    BE --> RAG
-    BE --> VAS
-    BE --> GCS
-    BE --> GEMINI
-    BE --> GCAL
-    RAG --> WEAVIATE
-```
-
----
 
 # 7. 서비스 아키텍처 및 핵심 기술 구조
 
