@@ -10,6 +10,9 @@
   <b>AI 기반 교육기관 맞춤형 멀티테넌트 학원 운영 플랫폼</b>
 </p>
 
+<p align="center">
+  🔗 <sub>이미지를 클릭하면 서비스 페이지로 이동합니다.</sub>
+</p>
 ---
 
 ## 📚 목차
@@ -130,63 +133,7 @@
 
 # 6. 시스템 아키텍처
 
-```mermaid
-graph TB
-    subgraph NGINX["Nginx :80"]
-        direction LR
-        RL[Rate Limiting]
-        RP[Reverse Proxy]
-    end
-
-    subgraph FE["Frontend - React :3000"]
-        SA_UI[Superadmin Pages]
-        ADMIN_UI[Admin Pages]
-        CHAT_UI[Chat Pages]
-        CAL_UI[Calendar Pages]
-    end
-
-    subgraph BE["Backend - FastAPI :8000"]
-        R1["/api/superadmin"]
-        R2["/api/auth"]
-        R3["/api/chat"]
-        R4["/api/corpus"]
-        R5["/api/models"]
-        R6["/api/kakao"]
-        R7["/api/calendar"]
-    end
-
-    subgraph DB["PostgreSQL :5432"]
-        TENANT_DATA["tenant_id FK isolation"]
-    end
-
-    subgraph GCP["Google Cloud Platform"]
-        subgraph RAG["Vertex AI RAG Engine"]
-            RAG_CORPUS["RAG Corpus + Weaviate"]
-        end
-        subgraph VAS["Vertex AI Search"]
-            DS["DataStore + Engine"]
-        end
-        subgraph GCS["GCS · techready_readytalk_kmu"]
-            BUCKET["tenants/{slug}/{corpus}/files"]
-        end
-        GEMINI["Gemini API"]
-        GCAL["Google Calendar API"]
-    end
-
-    WEAVIATE["Weaviate :8080"]
-
-    KAKAO["KakaoTalk"] --> R6
-
-    NGINX --> FE
-    NGINX --> BE
-    BE --> DB
-    BE --> RAG
-    BE --> VAS
-    BE --> GCS
-    BE --> GEMINI
-    BE --> GCAL
-    RAG --> WEAVIATE
-```
+🔴 [아이콘 있는 시스템 구조도]
 
 # 7. 서비스 아키텍처 및 핵심 기술 구조
 
