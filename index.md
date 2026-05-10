@@ -131,9 +131,28 @@
 
 ---
 
+# 5. 기술 스택
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18 · MUI · React Router v6 · Axios |
+| Backend | FastAPI · SQLAlchemy · Alembic · Gunicorn + Uvicorn |
+| Database | PostgreSQL 15 |
+| AI/Search | Vertex AI RAG Engine · Vertex AI Search · Gemini API |
+| Vector DB | Weaviate (RAG Engine 백엔드) |
+| Storage | Google Cloud Storage |
+| Calendar | Google Calendar API (OAuth 2.0) |
+| Infra | Docker Compose · Nginx · GCP Compute Engine |
+| Auth | JWT (python-jose) |
+| Messaging | KakaoTalk Open Builder |
+
+---
+
 # 6. 시스템 아키텍처
 
 🔴 [아이콘 있는 시스템 구조도]
+
+---
 
 # 7. 서비스 아키텍처 및 핵심 기술 구조
 
