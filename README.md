@@ -148,9 +148,139 @@
 
 ---
 
-# 6. 시스템 아키텍처
+# 6. 시스템 아키텍처 및 폴더구조
 
-🔴 [아이콘 있는 시스템 구조도]
+
+```mermaid
+graph TB
+    subgraph NGINX["Nginx :80"]
+        direction LR
+        RL[Rate Limiting]
+        RP[Reverse Proxy]
+    end
+
+    subgraph FE["Frontend - React :3000"]
+        SA_UI[Superadmin Pages]
+        ADMIN_UI[Admin Pages]
+        CHAT_UI[Chat Pages]
+        CAL_UI[Calendar Pages]
+    end
+
+    subgraph BE["Backend - FastAPI :8000"]
+        R1["/api/superadmin"]
+        R2["/api/auth"]
+        R3["/api/chat"]
+        R4["/api/corpus"]
+        R5["/api/models"]
+        R6["/api/kakao"]
+        R7["/api/calendar"]
+    end
+
+    subgraph DB["PostgreSQL :5432"]
+        TENANT_DATA["tenant_id FK isolation"]
+    end
+
+    subgraph GCP["Google Cloud Platform"]
+        subgraph RAG["Vertex AI RAG Engine"]
+            RAG_CORPUS["RAG Corpus + Weaviate"]
+        end
+        subgraph VAS["Vertex AI Search"]
+            DS["DataStore + Engine"]
+        end
+        subgraph GCS["GCS · techready_readytalk_kmu"]
+            BUCKET["tenants/{slug}/{corpus}/files"]
+        end
+        GEMINI["Gemini API"]
+        GCAL["Google Calendar API"]
+    end
+
+    WEAVIATE["Weaviate :8080"]
+
+    KAKAO["KakaoTalk"] --> R6
+
+    NGINX --> FE
+    NGINX --> BE
+    BE --> DB
+    BE --> RAG
+    BE --> VAS
+    BE --> GCS
+    BE --> GEMINI
+    BE --> GCAL
+    RAG --> WEAVIATE
+```
+폴더 구조
+
+```
+readytalk-kmu/
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── models/
+│   │   │   ├── tenant.py              # Tenant, GcpConfig, KakaoConfig, CalendarConfig
+│   │   │   ├── user.py
+│   │   │   ├── group.py
+│   │   │   ├── chat.py
+│   │   │   ├── corpus.py
+│   │   │   ├── chatbot_settings.py
+│   │   │   ├── prompt_template.py
+│   │   │   ├── platform_setting.py
+│   │   │   └── store_permission.py
+│   │   ├── routers/
+│   │   │   ├── superadmin.py          # 테넌트 CRUD, 플랫폼 설정
+│   │   │   ├── auth.py                # 로그인, 회원가입, JWT
+│   │   │   ├── chat.py                # 스마트 쿼리 (Function Calling)
+│   │   │   ├── corpus.py              # 문서저장소 CRUD (검색엔진 분기)
+│   │   │   ├── calendar.py            # Google Calendar OAuth
+│   │   │   ├── kakao.py               # 카카오톡 webhook
+│   │   │   ├── chatbot_settings.py    # 챗봇 설정
+│   │   │   ├── prompt_templates.py    # 프롬프트 템플릿
+│   │   │   ├── models.py             # Gemini 모델 목록
+│   │   │   └── admin.py              # 테넌트 어드민
+│   │   ├── services/
+│   │   │   ├── rag_service.py         # Vertex AI RAG + Weaviate
+│   │   │   ├── search_service.py      # Vertex AI Search
+│   │   │   ├── chat_service.py        # 스마트 쿼리 엔진
+│   │   │   ├── gemini_client.py       # Gemini API 클라이언트
+│   │   │   ├── gcs_service.py         # GCS 파일 관리
+│   │   │   ├── calendar_service.py    # Google Calendar 연동
+│   │   │   ├── tenant_provisioning.py # 테넌트 프로비저닝
+│   │   │   └── usage_service.py       # 사용량 추적
+│   │   ├── schemas/
+│   │   └── utils/
+│   │       ├── dependencies.py        # 인증 미들웨어
+│   │       ├── security.py            # JWT, 비밀번호 해싱
+│   │       ├── init_data.py           # 초기 데이터 (superadmin)
+│   │       └── store_access.py        # 문서저장소 접근 권한
+│   ├── credentials/                   # GCP 서비스 계정 JSON (gitignore)
+│   ├── migrations/                    # Alembic DB 마이그레이션
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── App.js                     # 라우팅 (slug 기반 테넌트 분기)
+│   │   ├── pages/
+│   │   │   ├── ChatPage.js            # 채팅 UI
+│   │   │   ├── AdminPage.js           # 테넌트 어드민
+│   │   │   ├── CalendarPage.js        # 캘린더 UI
+│   │   │   └── superadmin/            # 슈퍼어드민 페이지들
+│   │   ├── services/api.js            # Axios API 클라이언트
+│   │   └── context/
+│   │       ├── AuthContext.js
+│   │       └── TenantContext.js
+│   └── Dockerfile
+├── nginx/
+│   └── backend.conf                   # Nginx 설정
+├── docker-compose.yml                 # 로컬 개발용
+├── docker-compose.dev.yml             # 개발계 (GCP VM)
+├── docker-compose.prod.yml            # 운영계
+├── .env                               # 로컬 환경변수 (gitignore)
+└── .env.production                    # 운영 환경변수 (gitignore)
+```
+
+---
+
+
 
 ---
 
@@ -331,79 +461,9 @@ DB 저장 (messages 테이블) → 응답 반환
 
 ---
 
-# 8. 프로젝트 구조
 
-```
-readytalk-kmu/
-├── backend/
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── models/
-│   │   │   ├── tenant.py              # Tenant, GcpConfig, KakaoConfig, CalendarConfig
-│   │   │   ├── user.py
-│   │   │   ├── group.py
-│   │   │   ├── chat.py
-│   │   │   ├── corpus.py
-│   │   │   ├── chatbot_settings.py
-│   │   │   ├── prompt_template.py
-│   │   │   ├── platform_setting.py
-│   │   │   └── store_permission.py
-│   │   ├── routers/
-│   │   │   ├── superadmin.py          # 테넌트 CRUD, 플랫폼 설정
-│   │   │   ├── auth.py                # 로그인, 회원가입, JWT
-│   │   │   ├── chat.py                # 스마트 쿼리 (Function Calling)
-│   │   │   ├── corpus.py              # 문서저장소 CRUD (검색엔진 분기)
-│   │   │   ├── calendar.py            # Google Calendar OAuth
-│   │   │   ├── kakao.py               # 카카오톡 webhook
-│   │   │   ├── chatbot_settings.py    # 챗봇 설정
-│   │   │   ├── prompt_templates.py    # 프롬프트 템플릿
-│   │   │   ├── models.py             # Gemini 모델 목록
-│   │   │   └── admin.py              # 테넌트 어드민
-│   │   ├── services/
-│   │   │   ├── rag_service.py         # Vertex AI RAG + Weaviate
-│   │   │   ├── search_service.py      # Vertex AI Search
-│   │   │   ├── chat_service.py        # 스마트 쿼리 엔진
-│   │   │   ├── gemini_client.py       # Gemini API 클라이언트
-│   │   │   ├── gcs_service.py         # GCS 파일 관리
-│   │   │   ├── calendar_service.py    # Google Calendar 연동
-│   │   │   ├── tenant_provisioning.py # 테넌트 프로비저닝
-│   │   │   └── usage_service.py       # 사용량 추적
-│   │   ├── schemas/
-│   │   └── utils/
-│   │       ├── dependencies.py        # 인증 미들웨어
-│   │       ├── security.py            # JWT, 비밀번호 해싱
-│   │       ├── init_data.py           # 초기 데이터 (superadmin)
-│   │       └── store_access.py        # 문서저장소 접근 권한
-│   ├── credentials/                   # GCP 서비스 계정 JSON (gitignore)
-│   ├── migrations/                    # Alembic DB 마이그레이션
-│   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   │   ├── App.js                     # 라우팅 (slug 기반 테넌트 분기)
-│   │   ├── pages/
-│   │   │   ├── ChatPage.js            # 채팅 UI
-│   │   │   ├── AdminPage.js           # 테넌트 어드민
-│   │   │   ├── CalendarPage.js        # 캘린더 UI
-│   │   │   └── superadmin/            # 슈퍼어드민 페이지들
-│   │   ├── services/api.js            # Axios API 클라이언트
-│   │   └── context/
-│   │       ├── AuthContext.js
-│   │       └── TenantContext.js
-│   └── Dockerfile
-├── nginx/
-│   └── backend.conf                   # Nginx 설정
-├── docker-compose.yml                 # 로컬 개발용
-├── docker-compose.dev.yml             # 개발계 (GCP VM)
-├── docker-compose.prod.yml            # 운영계
-├── .env                               # 로컬 환경변수 (gitignore)
-└── .env.production                    # 운영 환경변수 (gitignore)
-```
 
----
-
-# 9. 실행 방법 및 개발 환경 설정
+# 8. 실행 방법 및 개발 환경 설정
 
 ## 📦 Quick Start
 
