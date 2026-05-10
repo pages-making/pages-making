@@ -114,7 +114,7 @@
 # 4. 기술 스택
 
 <p align="center">
-  <img src="./stack.png" width="90%" alt="ReadyTalk 기술 스택"/>
+  <img src="./stack.png" width="70%" alt="ReadyTalk 기술 스택"/>
 </p>
 ---
 
