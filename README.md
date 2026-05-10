@@ -1,16 +1,91 @@
 # 🎓 산학 캡스톤 22조 : ReadyTalk for Academy
 
-**※ 본 프로젝트는 산학협력으로 진행되어 기업과의 협약에 따라 현재 레포지토리 및 소스 코드는 외부에 공개하기 어려운 점 양해 부탁드립니다.**
+<p align="center">
+  <a href="https://academy.ready.talk/kookmin-language-institute">
+    <img src="./main-banner.PNG" width="100%" alt="ReadyTalk for Academy 배너"/>
+  </a>
+</p>
 
-## 1. 프로젝트 소개
-**ReadyTalk for Academy**는 학원 운영을 효율화하고 사용자 맞춤형 상담을 제공하기 위한 AI 기반 에이전트 시스템입니다. 
-비인증 사용자에게는 상담 매뉴얼 기반 안내와 행동 유도를 제공하고, 인증된 사용자에게는 출결 관리, 수업 일정, 리포트 등 개인화된 서비스를 제공합니다. 또한 기출 문제 유형 분류 및 유사 문제 생성을 통해 학습을 지원하며, 관리자는 상담 내용을 저장·요약하여 운영 효율을 높일 수 있습니다.
+<p align="center">
+  <b>AI 기반 교육기관 맞춤형 멀티테넌트 학원 운영 플랫폼</b>
+</p>
 
-## 2. 소개 영상
-<!-- 프로젝트를 소개하는 영상을 여기에 추가하세요 (YouTube 링크 등) -->
-[![ReadyTalk KMU 소개 영상]]
+---
 
-## 3. 팀 소개
+## 📚 목차
+
+- [1. 프로젝트 소개](#1-프로젝트-소개)
+- [2. 핵심 기능](#2-핵심-기능)
+- [3. 소개 영상](#3-소개-영상)
+- [4. 팀 소개](#4-팀-소개)
+- [5. 기술 스택](#5-기술-스택)
+- [6. 시스템 아키텍처](#6-시스템-아키텍처)
+- [7. 서비스 아키텍처 및 핵심 기술 구조](#7-서비스-아키텍처-및-핵심-기술-구조)
+- [8. 프로젝트 구조](#8-프로젝트-구조)
+- [9. 실행 방법 및 개발 환경 설정](#9-실행-방법-및-개발-환경-설정)
+
+---
+
+# 1. 프로젝트 소개
+
+## 📌 프로젝트 개요
+
+**ReadyTalk for Academy**는 학원 운영 자동화와 AI 상담 기능을 통합한 멀티테넌트 기반 교육기관 지원 플랫폼입니다.
+
+비인증 사용자에게는 상담 매뉴얼 기반 안내와 행동 유도를 제공하고, 인증된 사용자에게는 출결 관리, 수업 일정, 리포트 등 개인화된 서비스를 제공합니다.
+
+또한 기출 문제 유형 분류 및 유사 문제 생성을 통해 학습을 지원하며, 관리자는 상담 내용을 저장·요약하여 운영 효율을 높일 수 있습니다.
+
+---
+
+## 🚀 프로젝트 차별점
+
+| 구분 | 내용 |
+|---|---|
+| 학원 운영 특화 | 일반 챗봇이 아닌 학원 상담 및 운영 업무 중심 시스템 |
+| 멀티테넌트 구조 | 학원별 독립 데이터 관리 지원 |
+| RAG 기반 AI 상담 | 문서 기반 검색 및 신뢰도 높은 응답 제공 |
+| Google Calendar 연동 | 자연어 기반 일정 관리 기능 제공 |
+| KakaoTalk 연동 | 카카오톡 기반 상담 지원 |
+| 관리자 기능 | 문서 업로드, 사용자 관리, 상담 기록 관리 지원 |
+| 검색 엔진 이중 지원 | RAG Engine / Vertex AI Search 선택 가능 |
+
+---
+
+## 🖼️ 주요 서비스 화면
+
+🔴 [메인 채팅 화면 이미지 첨부]
+
+🔴 [어드민 페이지 이미지 첨부]
+
+🔴 [출결 관리 페이지 이미지 첨부]
+
+🔴 [캘린더 기능 이미지 첨부]
+
+---
+
+# 2. 핵심 기능
+
+| 기능 | 설명 |
+|---|---|
+| AI 상담 기능 | 학원 매뉴얼 기반 AI 상담 제공 |
+| 문서 기반 검색 | RAG 기반 문서 검색 및 응답 |
+| 출결 관리 | 학생 출결 및 통계 관리 |
+| 일정 관리 | Google Calendar 연동 |
+| 카카오톡 연동 | 카카오톡 기반 상담 지원 |
+| 멀티테넌트 | 학원별 데이터 독립 관리 |
+| 관리자 기능 | 문서 업로드 및 사용자 관리 |
+
+---
+
+# 3. 소개 영상
+
+🔴 [소개 영상 링크 또는 썸네일 삽입]
+
+---
+
+# 4. 팀 소개
+
 <table>
   <tr>
     <td align="center">
@@ -53,11 +128,7 @@
 
 ---
 
-# ReadyTalk for Academy
-
-Vertex AI 기반 멀티테넌트 AI 챗봇 플랫폼
-
-## Architecture Overview
+# 6. 시스템 아키텍처
 
 ```mermaid
 graph TB
@@ -117,23 +188,9 @@ graph TB
     RAG --> WEAVIATE
 ```
 
-## Tech Stack
+# 7. 서비스 아키텍처 및 핵심 기술 구조
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 · MUI · React Router v6 · Axios |
-| Backend | FastAPI · SQLAlchemy · Alembic · Gunicorn + Uvicorn |
-| Database | PostgreSQL 15 |
-| AI/Search | Vertex AI RAG Engine · Vertex AI Search · Gemini API |
-| Vector DB | Weaviate (RAG Engine 백엔드) |
-| Storage | Google Cloud Storage |
-| Calendar | Google Calendar API (OAuth 2.0) |
-| Infra | Docker Compose · Nginx · GCP Compute Engine |
-| Auth | JWT (python-jose) |
-| Messaging | KakaoTalk Open Builder |
-
-## 검색 엔진 이중 지원
-
+## 7.1 검색 엔진 구조
 테넌트별로 검색 엔진을 선택할 수 있습니다:
 
 | 엔진 | 서비스 | 리소스 구조 | 용도 |
@@ -147,7 +204,7 @@ graph TB
 "vertex_ai_search" # Vertex AI Search (DataStore + Engine)
 ```
 
-## Multi-Tenant Architecture
+## 7.2 멀티테넌트 데이터 구조
 
 ### 테넌트 격리 방식
 
@@ -167,7 +224,9 @@ tenants
   └── chatbot_settings (1:1)
 ```
 
-### GCP 리소스 구조
+---
+
+## 7.3 GCP 리소스 구조
 
 **1 GCP 프로젝트, 1 GCS 버킷, N 테넌트** 구조:
 
@@ -195,7 +254,9 @@ GCP Project: techready-readytalk-kmu
                 └── files...
 ```
 
-## User Hierarchy
+---
+
+## 7.4 사용자 권한 구조
 
 ```
 Superadmin (tenant_id=NULL, is_superadmin=True)
@@ -214,7 +275,9 @@ Superadmin (tenant_id=NULL, is_superadmin=True)
       카카오톡 채널 통해 자동 생성, 채팅만 가능
 ```
 
-## Chat Flow (Function Calling 기반)
+---
+
+## 7.5 AI 응답 처리 흐름
 
 ```
 사용자 질문
@@ -240,7 +303,9 @@ query_smart() — Gemini Function Calling
 DB 저장 (messages 테이블) → 응답 반환
 ```
 
-## Google Calendar 연동
+---
+
+## 7.6 Google Calendar 연동
 
 테넌트별 Google Calendar OAuth 연동:
 
@@ -251,7 +316,9 @@ DB 저장 (messages 테이블) → 응답 반환
    - "회의 시간 변경해줘" → `update_calendar_event`
    - "미팅 취소해줘" → `delete_calendar_event`
 
-## KakaoTalk Integration
+---
+
+## 7.7 KakaoTalk 연동
 
 ```
 카카오톡 사용자 → 카카오 서버 → /api/kakao/skill (webhook)
@@ -262,7 +329,9 @@ DB 저장 (messages 테이블) → 응답 반환
                                     └── Callback URL로 비동기 응답
 ```
 
-## Superadmin 관리
+---
+
+## 7.8 Superadmin 관리 구조
 
 ### Platform Settings
 
@@ -292,7 +361,11 @@ DB 저장 (messages 테이블) → 응답 반환
 2. GCS 테넌트 폴더 및 하위 파일 삭제
 3. DB Cascade 삭제
 
-## Project Structure
+[기존 내용 유지]
+
+---
+
+# 8. 프로젝트 구조
 
 ```
 readytalk-kmu/
@@ -362,7 +435,11 @@ readytalk-kmu/
 └── .env.production                    # 운영 환경변수 (gitignore)
 ```
 
-## Getting Started
+---
+
+# 9. 실행 방법 및 개발 환경 설정
+
+## 📦 Quick Start
 
 ### Prerequisites
 
@@ -407,4 +484,3 @@ docker-compose up -d --build
 3. 설정 > 기본 모델 선택
 4. 테넌트 생성 (검색 엔진 선택: RAG Engine 또는 Vertex AI Search)
 5. 테넌트 어드민 → 문서저장소 생성 → 파일 업로드
-
