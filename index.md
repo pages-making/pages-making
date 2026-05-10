@@ -1,4 +1,3 @@
-# 🎓 산학 캡스톤 22조 : ReadyTalk for Academy
 
 <p align="center">
   <a href="https://academy.ready.talk/kookmin-language-institute">
