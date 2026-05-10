@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://academy.ready.talk/kookmin-language-institute">
-    <img src="./main-banner.PNG" width="100%" alt="ReadyTalk for Academy 배너"/>
+    <img src="./main-banner.PNG" width="50%" alt="ReadyTalk for Academy 배너"/>
   </a>
 </p>
 
