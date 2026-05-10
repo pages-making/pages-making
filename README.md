@@ -1,10 +1,12 @@
 # 🎓 산학 캡스톤 22조 : ReadyTalk for Academy
 
+
 <p align="center">
   <a href="https://academy.ready.talk/kookmin-language-institute">
     <img src="./main-banner.PNG" width="50%" alt="ReadyTalk for Academy 배너"/>
   </a>
 </p>
+
 
 <p align="center">
   <b>AI 기반 교육기관 맞춤형 멀티테넌트 학원 운영 플랫폼</b>
