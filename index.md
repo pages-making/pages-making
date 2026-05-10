@@ -111,19 +111,9 @@
 
 # 4. 기술 스택
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 · MUI · React Router v6 · Axios |
-| Backend | FastAPI · SQLAlchemy · Alembic · Gunicorn + Uvicorn |
-| Database | PostgreSQL 15 |
-| AI/Search | Vertex AI RAG Engine · Vertex AI Search · Gemini API |
-| Vector DB | Weaviate (RAG Engine 백엔드) |
-| Storage | Google Cloud Storage |
-| Calendar | Google Calendar API (OAuth 2.0) |
-| Infra | Docker Compose · Nginx · GCP Compute Engine |
-| Auth | JWT (python-jose) |
-| Messaging | KakaoTalk Open Builder |
-
+<p align="center">
+  <img src="./stack.png" width="90%" alt="ReadyTalk 기술 스택"/>
+</p>
 ---
 
 # 5. 시스템 아키텍처 및 프로젝트 구조
