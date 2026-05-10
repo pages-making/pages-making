@@ -481,5 +481,19 @@ docker-compose up -d --build
 
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
+  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  
+  // Jekyll renders code blocks as <pre><code class="language-mermaid">...</code></pre>
+  // We need to convert them to <div class="mermaid">...</div> for Mermaid to pick them up.
+  window.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code.language-mermaid').forEach((block) => {
+      const pre = block.parentElement;
+      const diagram = block.textContent;
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = diagram;
+      pre.replaceWith(div);
+    });
+    mermaid.contentLoaded();
+  });
 </script>
