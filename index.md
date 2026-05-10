@@ -478,3 +478,8 @@ docker-compose up -d --build
 3. 설정 > 기본 모델 선택
 4. 테넌트 생성 (검색 엔진 선택: RAG Engine 또는 Vertex AI Search)
 5. 테넌트 어드민 → 문서저장소 생성 → 파일 업로드
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
